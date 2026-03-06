@@ -26,6 +26,9 @@ func setupEngine(t *testing.T) *RewriteEngine {
 	enc.Register(&cryptopkg.DeterministicModule{})
 	enc.Register(&cryptopkg.FPEModule{})
 	km := key_management.NewLocalKeyManager(5 * time.Minute)
+	// Pre-seed keys used by the test policy (32-byte test keys).
+	km.SetKey("key-email", make([]byte, 32))
+	km.SetKey("key-name", make([]byte, 32))
 	return NewRewriteEngine(pol, enc, km)
 }
 

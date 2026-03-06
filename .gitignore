@@ -1,0 +1,14 @@
+# Binaries
+proxy
+*.exe
+
+# Environment secrets - never commit
+.env
+
+# Test/build artifacts
+*.test
+*.out
+
+# IDE
+.idea/
+.vscode/

@@ -62,8 +62,7 @@ func (l *LocalKeyManager) GetKey(keyID string) ([]byte, error) {
 
 	key, ok := l.keys[keyID]
 	if !ok {
-		key = deriveTestKey(keyID)
-		l.keys[keyID] = key
+		return nil, fmt.Errorf("key %q not found: set env var %s (hex-encoded 32-byte key)", keyID, envKey)
 	}
 	l.cache[keyID] = cachedKey{key: key, expiresAt: time.Now().Add(l.cacheTTL)}
 	return key, nil
@@ -87,16 +86,6 @@ func sanitizeKeyID(keyID string) string {
 		}
 	}
 	return string(result)
-}
-
-// deriveTestKey generates a weak deterministic key from a keyID for local/test use only.
-// WARNING: never use in production; configure real keys via environment variables or a KMS.
-func deriveTestKey(keyID string) []byte {
-	key := make([]byte, 32)
-	for i, c := range []byte(keyID) {
-		key[i%32] ^= c
-	}
-	return key
 }
 
 type KMSKeyManager struct {
