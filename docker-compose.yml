@@ -1,0 +1,30 @@
+version: "3.9"
+services:
+  proxy:
+    build: .
+    ports:
+      - "3307:3307"
+      - "9090:9090"
+    volumes:
+      - ./configs:/app/configs
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: proxyuser
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3306:3306"
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./configs/prometheus.yml:/etc/prometheus/prometheus.yml
