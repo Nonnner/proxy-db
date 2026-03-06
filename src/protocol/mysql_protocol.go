@@ -76,7 +76,9 @@ func (h *MySQLHandler) Handle() error {
 		cmd := pkt.Payload[0]
 		switch cmd {
 		case comQuit:
-			WritePacket(h.backendConn, pkt.Sequence, pkt.Payload)
+			if err := WritePacket(h.backendConn, pkt.Sequence, pkt.Payload); err != nil {
+				return err
+			}
 			return nil
 		case comQuery:
 			query := string(pkt.Payload[1:])

@@ -10,7 +10,8 @@ services:
     depends_on:
       - mysql
     environment:
-      - PROXY_KEY_KEY_USERS_EMAIL=0000000000000000000000000000000000000000000000000000000000000000  # CHANGE IN PRODUCTION
+      # Set to a 64-char hex string (32-byte key). Example: openssl rand -hex 32
+      - PROXY_KEY_KEY_USERS_EMAIL=CHANGE_ME_USE_openssl_rand_hex_32_OUTPUT_HERE
 
   mysql:
     image: mysql:8.0
