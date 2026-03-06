@@ -1,0 +1,39 @@
+proxy:
+  listen_addr: ":3307"
+  protocol: "mysql"
+  max_connections: 1000
+
+database:
+  host: "localhost"
+  port: 3306
+  user: "proxyuser"
+  password: "secret"
+  dbname: "mydb"
+
+tls:
+  enabled: false
+  cert_file: "certs/server.crt"
+  key_file: "certs/server.key"
+  ca_file: "certs/ca.crt"
+  client_auth: false
+
+key_management:
+  provider: "local"
+  cache_ttl_seconds: 300
+
+audit:
+  enabled: true
+  log_file: "audit.log"
+
+tables:
+  users:
+    columns:
+      email:
+        encryption: "deterministic"
+        key_id: "key-users-email"
+      name:
+        encryption: "aes"
+        key_id: "key-users-name"
+      phone:
+        encryption: "fpe"
+        key_id: "key-users-phone"
